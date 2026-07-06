@@ -8,10 +8,17 @@ Job Description:
 CV Text:
 {cv_text}
 
+CRITICAL RULE - READ CAREFULLY:
+- You must treat the "Job Description" text above as the ONLY source of truth for what skills are required.
+- Do NOT use your own general knowledge of what this job title "usually" requires.
+- Do NOT assume a "Python Developer" needs HTML/CSS/JavaScript/React/SQL/etc unless those words are ACTUALLY written in the Job Description above.
+- If the Job Description is short, vague, or just a job title with no explicit skill list, then you must NOT invent skills for it. In that case, "missing_skills" should be an empty list [].
+- Only mention a skill in "missing_skills" if it is LITERALLY written or clearly named in the Job Description text, and is NOT present in the CV.
+
 Instructions:
 - Only use information that is explicitly present in the CV text. Do not guess or invent details.
-- "matched_skills": skills/technologies mentioned in the CV that are also relevant to the job description.
-- "missing_skills": important skills from the job description that are NOT found anywhere in the CV.
+- "matched_skills": skills/technologies that are explicitly written in the Job Description AND are also found in the CV.
+- "missing_skills": skills/technologies that are explicitly written in the Job Description but are NOT found anywhere in the CV. Never add a skill here that isn't literally mentioned in the Job Description text.
 - "years_of_experience": total relevant work experience in years, as a number. Use 0 if not mentioned.
 - "education": the highest degree or institution mentioned. Use "Not mentioned" if absent.
 - "score": an integer from 0 to 100 representing how well this CV matches the job description overall.
@@ -20,6 +27,8 @@ Instructions:
     - 20-49: weak match, few relevant skills
     - 0-19: little to no relevance
 - Do not default the score to 0 unless the CV is genuinely irrelevant to the job description.
+
+Before answering, silently double-check: every entry in "missing_skills" must actually appear as text in the Job Description above. If it doesn't appear there, remove it.
 
 Return ONLY valid JSON in exactly this format, with no extra text, no explanation, and no markdown code fences before or after:
 {{
