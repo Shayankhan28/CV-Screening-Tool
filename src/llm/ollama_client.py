@@ -5,7 +5,10 @@ def ask_ollama(prompt):
         model="llama3.2:3b",
         messages=[
             {"role": "user", "content": prompt}
-        ]
+        ],
+        options={
+            "num_predict": 800   # response ki max length badhai
+        }
     )
     return response.message.content
 
