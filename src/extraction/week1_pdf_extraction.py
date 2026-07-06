@@ -12,6 +12,6 @@ def extract_text_from_pdf(file_path):
         return ""
 
 
-if __name__ == "__main__":
-    result = extract_text_from_pdf("src/data/sample_cvs/notes.pdf")
-    print(result)
+# if __name__ == "__main__":
+#     result = extract_text_from_pdf("src/data/sample_cvs/notes.pdf")
+#     print(result)

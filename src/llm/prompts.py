@@ -44,15 +44,15 @@ Return ONLY valid JSON in exactly this format, with no extra text, no explanatio
     return prompt
 
 
-if __name__ == "__main__":
-    from src.llm.ollama_client import ask_ollama
-    from src.llm.json_validator import parse_llm_response
-    from src.extraction.week1_pdf_extraction import extract_text_from_pdf
+# if __name__ == "__main__":
+#     from src.llm.ollama_client import ask_ollama
+#     from src.llm.json_validator import parse_llm_response
+#     from src.extraction.week1_pdf_extraction import extract_text_from_pdf
 
-    job_description = "Looking for a Python developer with machine learning experience"
-    cv_text = extract_text_from_pdf("src/data/sample_cvs/MY CV.pdf")
-    prompt = build_analysis_prompt(cv_text, job_description)
-    result = ask_ollama(prompt)
+#     job_description = "Looking for a Python developer with machine learning experience"
+#     cv_text = extract_text_from_pdf("src/data/sample_cvs/MY CV.pdf")
+#     prompt = build_analysis_prompt(cv_text, job_description)
+#     result = ask_ollama(prompt)
 
-    parsed = parse_llm_response(result)
-    print(parsed)
+#     parsed = parse_llm_response(result)
+#     print(parsed)

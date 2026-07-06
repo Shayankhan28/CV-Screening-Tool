@@ -14,6 +14,6 @@ def extract_text_from_docs(file_path):
 
 
 
-if __name__ == "__main__":
-    result = extract_text_from_docs("src/data/sample_cvs/report.docx")
-    print(result)
+# if __name__ == "__main__":
+#     result = extract_text_from_docs("src/data/sample_cvs/report.docx")
+#     print(result)

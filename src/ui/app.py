@@ -9,6 +9,7 @@ import tempfile
 
 from src.extraction.week1_pdf_extraction import extract_text_from_pdf
 from src.extraction.week1_doc_extraction import extract_text_from_docs
+from src.extraction.cleaner import clean_text
 from src.ranking.ranker import rank_cvs
 from src.llm.ollama_client import ask_ollama
 from src.llm.prompts import build_analysis_prompt
@@ -35,6 +36,8 @@ if st.button("Scan CVs"):
     else:
         with st.spinner("Extracting text from CVs..."):
             cv_texts = {}
+            skipped_files = []
+            empty_files = []
             temp_dir = tempfile.mkdtemp()
 
             for uploaded_file in uploaded_files:
@@ -42,10 +45,31 @@ if st.button("Scan CVs"):
                 with open(temp_path, "wb") as f:
                     f.write(uploaded_file.getbuffer())
 
-                if uploaded_file.name.endswith(".pdf"):
-                    cv_texts[uploaded_file.name] = extract_text_from_pdf(temp_path)
-                elif uploaded_file.name.endswith(".docx"):
-                    cv_texts[uploaded_file.name] = extract_text_from_docs(temp_path)
+                lower_name = uploaded_file.name.lower()
+                if lower_name.endswith(".pdf"):
+                    raw_text = extract_text_from_pdf(temp_path)
+                elif lower_name.endswith(".docx"):
+                    raw_text = extract_text_from_docs(temp_path)
+                else:
+                    skipped_files.append(uploaded_file.name)
+                    continue
+
+                if not raw_text.strip():
+                    empty_files.append(uploaded_file.name)
+
+                cv_texts[uploaded_file.name] = clean_text(raw_text)
+
+            if skipped_files:
+                st.warning(f"Skipped unsupported files: {', '.join(skipped_files)}")
+            if empty_files:
+                st.warning(
+                    f"No text could be extracted from: {', '.join(empty_files)} "
+                    "(file may be corrupt, empty, or a scanned image)."
+                )
+
+        if not cv_texts:
+            st.error("No readable CVs found in the uploaded files. Please check the files and try again.")
+            st.stop()
 
         with st.spinner("Ranking CVs against job description..."):
             ranked = rank_cvs(job_description, cv_texts)

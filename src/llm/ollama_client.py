@@ -13,6 +13,6 @@ def ask_ollama(prompt):
     return response.message.content
 
 
-if __name__ == "__main__":
-    result = ask_ollama("Say hello in one sentence")
-    print(result)
+# if __name__ == "__main__":
+#     result = ask_ollama("Say hello in one sentence")
+#     print(result)
