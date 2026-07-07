@@ -2,7 +2,7 @@ import ollama
 
 def ask_ollama(prompt):
     response = ollama.chat(
-        model="llama3.2:3b",
+        model="phi3:mini",
         messages=[
             {"role": "user", "content": prompt}
         ],
