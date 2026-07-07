@@ -7,7 +7,8 @@ def ask_ollama(prompt):
             {"role": "user", "content": prompt}
         ],
         options={
-            "num_predict": 800   # response ki max length badhai
+            "num_predict": 800,   # response ki max length badhai
+            "temperature": 0      # consistent/deterministic output ke liye
         }
     )
     return response.message.content
