@@ -3,6 +3,7 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
+import io
 import streamlit as st
 import pandas as pd
 import tempfile
@@ -64,7 +65,7 @@ if st.button("Scan CVs"):
             if empty_files:
                 st.warning(
                     f"No text could be extracted from: {', '.join(empty_files)} "
-                    "(file may be corrupt, empty, or a scanned image)."
+                    "(file may be corrupt, empty, or a scanned image - needs manual review)."
                 )
 
         if not cv_texts:
@@ -94,3 +95,15 @@ if st.button("Scan CVs"):
 
         results_df = pd.DataFrame(final_results)
         st.dataframe(results_df)
+
+        # Excel export
+        excel_buffer = io.BytesIO()
+        results_df.to_excel(excel_buffer, index=False, engine="openpyxl")
+        excel_buffer.seek(0)
+
+        st.download_button(
+            label="📥 Download Results as Excel",
+            data=excel_buffer,
+            file_name="cv_screening_results.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
